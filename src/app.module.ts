@@ -11,14 +11,15 @@ import { User } from './entities/user.entity';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '3306'),
+      port: parseInt(process.env.DB_PORT || '5432'),
       username: process.env.DB_USER || 'fifa_user',
       password: process.env.DB_PASSWORD || 'fifa_pass',
       database: process.env.DB_NAME || 'fifa_db',
       entities: [Player, PlayerStats, User],
-      synchronize: true, // Only for development; use migrations in production
+      synchronize: true,
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
       logging: process.env.NODE_ENV !== 'production',
     }),
     AuthModule,

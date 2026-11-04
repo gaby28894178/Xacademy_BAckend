@@ -23,6 +23,13 @@ export class PlayersService {
     private statsRepository: Repository<PlayerStats>,
   ) {}
 
+  async findAllNoFilters() {
+    return this.playerRepository.find({
+      relations: ['stats'],
+      order: { short_name: 'ASC' },
+    });
+  }
+
   async findAll(query: PlayerQueryDto) {
     const { name, club, position, nationality, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;

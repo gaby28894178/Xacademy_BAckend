@@ -34,6 +34,13 @@ import { CreatePlayerDto, UpdatePlayerDto, PlayerQueryDto } from './dto/player.d
 export class PlayersController {
   constructor(private playersService: PlayersService) {}
 
+  @Get('all')
+  @ApiOperation({ summary: 'Get all players without filters or pagination' })
+  @ApiResponse({ status: 200, description: 'Full player list' })
+  findAllNoFilters() {
+    return this.playersService.findAllNoFilters();
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get paginated list of players with filters' })
   @ApiResponse({ status: 200, description: 'Paginated player list' })
